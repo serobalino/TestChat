@@ -1,0 +1,25 @@
+services:
+  model_training:
+    build:
+      context: ./model_training
+    volumes:
+      - ./data:/app/data
+    environment:
+      - MODEL_NAME=${MODEL_ORIGINAL}
+      - MY_MODEL=${MY_MODEL}
+      - TOKEN=${TOKEN}
+    command: ["python", "train.py"]
+    restart: on-failure
+
+  chatbot:
+    build:
+      context: ./chatbot
+    ports:
+      - "5001:5000"
+    environment:
+      - FLASK_ENV=development
+      - MY_MODEL=${MY_MODEL}
+      - TOKEN=${TOKEN}
+    depends_on:
+      - model_training
+    restart: always
