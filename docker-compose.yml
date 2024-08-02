@@ -3,7 +3,7 @@ services:
     build:
       context: ./model_training
     volumes:
-      - ./data:/app/data
+      - ./modelo:/app/${MY_MODEL}
     environment:
       - MODEL_NAME=${MODEL_ORIGINAL}
       - MY_MODEL=${MY_MODEL}
